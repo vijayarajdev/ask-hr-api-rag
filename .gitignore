@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+build/
+dist/
+
+# Environment Variables (CRITICAL)
+.env
+venv/
+
+# Local Database & Data
+data/chroma_db_*/
+
+
+# macOS system files
+.DS_Store
+
+# Docker logs
+*.log

@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+urllib3
+requests
+langchain
+langchain-community 
+langchain-openai
+langchain-google-genai
+chromadb
+python-dotenv
+pydantic-settings
+unstructured[md]
