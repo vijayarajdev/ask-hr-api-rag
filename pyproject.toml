@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ask-hr-api-rag"
+version = "1.0.0"
+description = "RAG-based HR policy assistant API built with FastAPI and LangChain"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.semantic_release]
+allow_zero_version = false
+commit_parser = "conventional"
+commit_message = "chore(release): {version} [skip ci]"
+tag_format = "v{version}"
+version_toml = ["pyproject.toml:project.version"]
+version_variables = ["app/__init__.py:__version__"]
+
+[tool.semantic_release.branches.main]
+match = "main"
+prerelease = false
+
+[tool.semantic_release.changelog]
+mode = "update"
+
+[tool.semantic_release.changelog.default_templates]
+changelog_file = "CHANGELOG.md"
+output_format = "md"
+mask_initial_release = true
+
+[tool.semantic_release.publish]
+upload_to_vcs_release = false
