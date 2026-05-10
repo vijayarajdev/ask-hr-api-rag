@@ -39,6 +39,11 @@ A production-ready Retrieval-Augmented Generation (RAG) API built with FastAPI a
    pip install -r requirements.txt
    ```
 
+4. **Install Release Tooling (Optional — for cutting releases locally):**
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
+
 ## 📚 Data Ingestion (Building the Database)
 
 Before starting the API, you need to populate the vector database with your HR policies.
@@ -90,4 +95,29 @@ curl -X POST "http://localhost:8000/api/v1/ask" \
 ```
 
 ### API Documentation
-You can view and interact with the automatically generated Swagger UI documentation by visiting `http://localhost:8000/docs` in your browser.
+You can view and interact with the automatically generated Swagger UI documentation by visiting `http://localhost:8088/docs` in your browser.
+
+## Release Management
+
+This project uses [`python-semantic-release`](https://python-semantic-release.readthedocs.io/) to automate versioning and changelog generation from [Conventional Commits](https://www.conventionalcommits.org/).
+
+- **Version source of truth:** `app/__init__.py` and `pyproject.toml`
+- **Release branch:** `main`
+- **Tag format:** `vX.Y.Z`
+- **Changelog:** `CHANGELOG.md` (auto-updated on each release)
+
+### Commit Message Format
+
+```text
+feat: add policy source metadata to responses        # → minor bump
+fix: handle missing Chroma database path             # → patch bump
+feat!: change response schema for multi-source answers  # → major bump
+```
+
+### Preview the next version locally
+
+```bash
+semantic-release version --noop
+```
+
+On every push to `main`, GitHub Actions evaluates commits, bumps the version, updates `CHANGELOG.md`, commits, tags, and creates a GitHub release — fully automated.

@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app import __version__
 from app.api.routes import router as api_router
 from app.core.config import settings
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="A RAG-based HR Policy Assistant supporting Gemini and OpenAI",
-    version="1.0.0"
+    version=__version__
 )
 
 # Configure CORS to allow cross-origin requests from web frontends
