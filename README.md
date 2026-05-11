@@ -27,10 +27,24 @@ A production-ready Retrieval-Augmented Generation (RAG) API built with FastAPI a
    # Choose your provider: "gemini" or "openai"
    LLM_PROVIDER=gemini
 
+   # Environment: development, staging, or production
+   APP_ENV=development
+
+   # Allowed browser origins for CORS (comma-separated)
+   CORS_ALLOW_ORIGINS=http://localhost:8088
+
    # Provide your API keys
    GOOGLE_API_KEY="your_google_api_key_here"
    OPENAI_API_KEY="your_openai_api_key_here"
    ```
+
+   The application validates configuration at startup:
+   - `APP_ENV` must be `development`, `staging`, or `production`
+   - `LLM_PROVIDER` must be `gemini` or `openai`
+   - `GOOGLE_API_KEY` is required when `LLM_PROVIDER=gemini`
+   - `OPENAI_API_KEY` is required when `LLM_PROVIDER=openai`
+   - `CORS_ALLOW_ORIGINS` cannot contain `*` when credentials are enabled
+   - when `APP_ENV=production`, `CORS_ALLOW_ORIGINS` must contain explicit non-localhost origins
 
 3. **Install Dependencies (Local Development):**
    ```bash
@@ -55,7 +69,7 @@ Before starting the API, you need to populate the vector database with your HR p
    python scripts/ingest.py
    ```
 
-*Note: The script dynamically reads your `LLM_PROVIDER` environment variable and saves the database to either `./data/chroma_db_gemini` or `./data/chroma_db_openai`. This prevents dimension mismatch errors when switching between models.*
+*Note: The script dynamically reads your `LLM_PROVIDER` environment variable and saves the database to either `./data/chroma_db_google` or `./data/chroma_db_openai`. This prevents dimension mismatch errors when switching between models.*
 
 ## 🚀 Running the API
 
@@ -63,7 +77,7 @@ Before starting the API, you need to populate the vector database with your HR p
 ```bash
 docker-compose up --build
 ```
-This will start the API on `http://localhost:8000` and mount your local `./data` folder so the vector database persists.
+This will start the API on `http://localhost:8088` and mount your local `./data` folder so the vector database persists.
 
 ### Option 2: Running Locally
 ```bash
@@ -78,7 +92,7 @@ Once the server is running, you can test the HR Assistant by sending a `POST` re
 
 **cURL Example:**
 ```bash
-curl -X POST "http://localhost:8000/api/v1/ask" \
+curl -X POST "http://localhost:8088/api/v1/ask" \
      -H "Content-Type: application/json" \
      -d '{"query": "What is the company policy on international travel?"}'
 ```

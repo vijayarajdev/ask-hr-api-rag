@@ -1,9 +1,13 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException
+from app.engine.chains import format_docs
 from app.models.schemas import ChatRequest, ChatResponse
 from app.api.dependencies import get_qa_engine
 from app.core.config import settings
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 @router.post("/ask", response_model=ChatResponse)
 async def ask_hr(
@@ -19,30 +23,30 @@ async def ask_hr(
     chain, retriever = engine_bundle
 
     try:
-        # 1. Generate the Answer
-        # The chain handles: Input -> Context Retrieval -> Prompt -> LLM
-        answer = await chain.ainvoke(request.query)
-
-        # 2. Fetch the Source Documents
-        # We run the retriever separately to get the metadata/filenames
+        # 1. Retrieve once and reuse the same context for answer + sources.
         docs = await retriever.ainvoke(request.query)
+        context = format_docs(docs)
+        answer = await chain.ainvoke({
+            "context": context,
+            "question": request.query,
+        })
         
         # Extract unique filenames from the metadata
-        sources = list(set([
+        sources = sorted(set([
             doc.metadata.get("source", "Unknown Policy") 
             for doc in docs
         ]))
 
-        # 3. Return the structured response
+        # 2. Return the structured response
         return ChatResponse(
             answer=answer,
             sources=sources,
             model_used=settings.LLM_PROVIDER
         )
 
-    except Exception as e:
-        # Catch errors (like API timeouts or missing keys) gracefully
+    except Exception:
+        logger.exception("AI engine failure in /api/v1/ask")
         raise HTTPException(
             status_code=500, 
-            detail=f"The AI Engine encountered an error: {str(e)}"
+            detail="The AI Engine encountered an internal error. Please try again later."
         )
