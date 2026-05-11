@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.0.2 (2026-05-11)
+
+### Bug Fixes
+
+- Correct mermaid code block formatting in architecture documentation
+  ([`cbfc9c8`](https://github.com/vijayarajdev/ask-hr-api-rag/commit/cbfc9c8787b544b7a0076fe698538e4de949dac1))
+
+
 ## v1.0.1 (2026-05-11)
 
 ### Bug Fixes

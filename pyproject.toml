@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ask-hr-api-rag"
-version = "1.0.1"
+version = "1.0.2"
 description = "RAG-based HR policy assistant API built with FastAPI and LangChain"
 readme = "README.md"
 requires-python = ">=3.11"
