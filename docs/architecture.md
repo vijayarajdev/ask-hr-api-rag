@@ -1,3 +1,4 @@
+```mermaid
 flowchart LR
   subgraph A[Presentation Layer]
     C[Client: Web, Mobile, Postman]
@@ -66,3 +67,4 @@ flowchart LR
   class APP,LIFE,ASK,DEP api;
   class RETRIEVE,FORMAT,CHAIN,SOURCE,PROMPT,SCHEMA,LLM,VEC,CFG app;
   class CHROMA,POLICIES,OAI,GEM data;
+```
