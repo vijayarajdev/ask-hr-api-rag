@@ -21,6 +21,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code
 COPY ./app /code/app
 
+# Copy static files for the chat widget
+COPY index.html /code/index.html
+COPY chat-widget.js /code/chat-widget.js
+
 # Copy the pre-built databases and policies
 COPY ./data /code/data
 

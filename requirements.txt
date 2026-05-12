@@ -4,6 +4,7 @@ urllib3
 requests
 langchain
 langchain-community 
+langchain-chroma
 langchain-openai
 langchain-google-genai
 chromadb

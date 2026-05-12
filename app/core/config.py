@@ -1,3 +1,4 @@
+import json
 from typing import Literal, Optional
 
 from pydantic import Field, field_validator, model_validator
@@ -8,7 +9,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     GOOGLE_API_KEY: Optional[str] = None
     APP_ENV: Literal["development", "staging", "production"] = "development"
-    CORS_ALLOW_ORIGINS: list[str] = Field(default_factory=lambda: ["http://localhost:8088"])
+    CORS_ALLOW_ORIGINS: list[str] | str = Field(default_factory=lambda: ["http://localhost:8088"])
     CORS_ALLOW_CREDENTIALS: bool = True
     
     # Defaults to gemini, matches your ingest.py
@@ -21,7 +22,10 @@ class Settings(BaseSettings):
         if isinstance(value, str):
             stripped = value.strip()
             if stripped.startswith("["):
-                return value
+                try:
+                    return json.loads(stripped)
+                except json.JSONDecodeError:
+                    pass
             return [origin.strip() for origin in value.split(",") if origin.strip()]
         return value
 
