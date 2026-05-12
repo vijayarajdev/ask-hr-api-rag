@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.1.0 (2026-05-12)
+
+### Features
+
+- Add chat widget and static files for integration
+  ([`614e923`](https://github.com/vijayarajdev/ask-hr-api-rag/commit/614e923e169fca652bdd7486b843de747e2e09cc))
+
+
 ## v1.0.2 (2026-05-11)
 
 ### Bug Fixes
